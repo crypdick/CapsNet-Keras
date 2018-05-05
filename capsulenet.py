@@ -24,6 +24,8 @@ import matplotlib.pyplot as plt
 from utils import combine_images
 from PIL import Image
 from capsulelayers import CapsuleLayer, PrimaryCap, Length, Mask
+from six.moves import cPickle as pickle
+from six.moves import range
 
 K.set_image_data_format('channels_last')
 
