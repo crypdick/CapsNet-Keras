@@ -1,0 +1,3 @@
+ran on MNIST successfully
+modified notMNIST to be compatible with code
+Kept getting "Epoch 00014: val_capsnet_acc did not improve from 0.09960" errors

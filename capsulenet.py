@@ -208,8 +208,9 @@ def load_mnist():
 def load_notMNIST_from_npy():
     image_data = np.load("image_data.npy")
     label_data = np.load("label_data.npy")
-    image_data = np.expand_dims(image_data, axis=4)
-    label_data = np.expand_dims(label_data, axis=1)
+    label_data = to_categorical(label_data.astype('float32'))  # 1 hot encode
+    image_data = image_data.reshape(-1, 28, 28, 1).astype('float32') / 255.
+    #label_data = np.expand_dims(label_data, axis=1)
 
     data_train, data_test, labels_train, labels_test = train_test_split(image_data,
                                                                         label_data,
