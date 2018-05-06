@@ -273,8 +273,6 @@ if __name__ == "__main__":
     (x_train, y_train), (x_test, y_test) = load_mnist()
     x_train1, y_train1, x_test1, y_test1 = load_notMNIST_from_npy()
 
-    import pdb; pdb.set_trace()
-
     # define model
     model, eval_model, manipulate_model = CapsNet(input_shape=x_train.shape[1:],
                                                   n_class=len(np.unique(np.argmax(y_train, 1))),
