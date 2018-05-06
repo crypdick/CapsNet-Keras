@@ -204,6 +204,8 @@ def load_mnist():
 
 
 
+def load_notMNIST_from_npy():
+   np.load
 
 def load_notMNIST():
     pickle_file = 'notMNIST.pickle'
