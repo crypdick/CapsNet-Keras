@@ -238,7 +238,7 @@ except Exception as e:
 
 # Getting statistics of a file using os.stat(file_name)
 statinfo = os.stat(pickle_file)
-print('Compressed pickle size:', statinfo.st_size)go
+print('Compressed pickle size:', statinfo.st_size)
 
 
 #
