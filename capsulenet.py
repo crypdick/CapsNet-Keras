@@ -202,7 +202,57 @@ def load_mnist():
     y_test = to_categorical(y_test.astype('float32'))
     return (x_train, y_train), (x_test, y_test)
 
+
+
+
 def load_notMNIST():
+    from notMNIST_loading import maybe_pickle, make_arrays, randomize, \
+        merge_datasets, maybe_download, maybe_extract
+
+    train_filename = maybe_download('notMNIST_large.tar.gz', 247336696)
+    test_filename = maybe_download('notMNIST_small.tar.gz', 8458043)
+
+    train_folders = maybe_extract(train_filename)
+    test_folders = maybe_extract(test_filename)
+
+    train_datasets = maybe_pickle(train_folders, 45000)
+    test_datasets = maybe_pickle(test_folders, 1800)
+
+    train_size = 200000
+    valid_size = 10000
+    test_size = 10000
+
+    valid_dataset, valid_labels, train_dataset, train_labels = merge_datasets(
+        train_datasets, train_size, valid_size)
+    _, _, test_dataset, test_labels = merge_datasets(test_datasets, test_size)
+
+    print('Training:', train_dataset.shape, train_labels.shape)
+    print('Validation:', valid_dataset.shape, valid_labels.shape)
+    print('Testing:', test_dataset.shape, test_labels.shape)
+
+    train_dataset, train_labels = randomize(train_dataset, train_labels)
+    test_dataset, test_labels = randomize(test_dataset, test_labels)
+    valid_dataset, valid_labels = randomize(valid_dataset, valid_labels)
+
+    pickle_file = 'notMNIST.pickle'
+
+    try:
+        f = open(pickle_file, 'wb')
+        save = {
+            'train_dataset': train_dataset,
+            'train_labels': train_labels,
+            'valid_dataset': valid_dataset,
+            'valid_labels': valid_labels,
+            'test_dataset': test_dataset,
+            'test_labels': test_labels,
+        }
+        pickle.dump(save, f, pickle.HIGHEST_PROTOCOL)
+        f.close()
+    except Exception as e:
+        print('Unable to save data to', pickle_file, ':', e)
+        raise
+
+    ########### old
     pickle_file = 'notMNIST.pickle'
 
     with open(pickle_file, 'rb') as f:

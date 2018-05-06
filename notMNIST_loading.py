@@ -238,42 +238,42 @@ except Exception as e:
 
 # Getting statistics of a file using os.stat(file_name)
 statinfo = os.stat(pickle_file)
-print('Compressed pickle size:', statinfo.st_size)
+print('Compressed pickle size:', statinfo.st_size)go
 
 
-
-
-import time
-
-def check_overlaps(images1, images2):
-    images1.flags.writeable=False
-    images2.flags.writeable=False
-    start = time.clock()
-    hash1 = set([hash(image1.data) for image1 in images1])
-    hash2 = set([hash(image2.data) for image2 in images2])
-    all_overlaps = set.intersection(hash1, hash2)
-    return all_overlaps, time.clock()-start
-
-r, execTime = check_overlaps(train_dataset, test_dataset)
-print('Number of overlaps between training and test sets: {}. Execution time: {}.'.format(len(r), execTime))
-
-r, execTime = check_overlaps(train_dataset, valid_dataset)
-print('Number of overlaps between training and validation sets: {}. Execution time: {}.'.format(len(r), execTime))
-
-r, execTime = check_overlaps(valid_dataset, test_dataset)
-print('Number of overlaps between validation and test sets: {}. Execution time: {}.'.format(len(r), execTime))
-
-
-
-
-
-# Prepare training data
-samples, width, height = train_dataset.shape
-X_train = np.reshape(train_dataset,(samples,width*height))
-y_train = train_labels
-
-# Prepare testing data
-samples, width, height = test_dataset.shape
-X_test = np.reshape(test_dataset,(samples,width*height))
-y_test = test_labels
-
+#
+#
+# import time
+#
+# def check_overlaps(images1, images2):
+#     images1.flags.writeable=False
+#     images2.flags.writeable=False
+#     start = time.clock()
+#     hash1 = set([hash(image1.data) for image1 in images1])
+#     hash2 = set([hash(image2.data) for image2 in images2])
+#     all_overlaps = set.intersection(hash1, hash2)
+#     return all_overlaps, time.clock()-start
+#
+# r, execTime = check_overlaps(train_dataset, test_dataset)
+# print('Number of overlaps between training and test sets: {}. Execution time: {}.'.format(len(r), execTime))
+#
+# r, execTime = check_overlaps(train_dataset, valid_dataset)
+# print('Number of overlaps between training and validation sets: {}. Execution time: {}.'.format(len(r), execTime))
+#
+# r, execTime = check_overlaps(valid_dataset, test_dataset)
+# print('Number of overlaps between validation and test sets: {}. Execution time: {}.'.format(len(r), execTime))
+#
+#
+#
+#
+#
+# # Prepare training data
+# samples, width, height = train_dataset.shape
+# X_train = np.reshape(train_dataset,(samples,width*height))
+# y_train = train_labels
+#
+# # Prepare testing data
+# samples, width, height = test_dataset.shape
+# X_test = np.reshape(test_dataset,(samples,width*height))
+# y_test = test_labels
+#
