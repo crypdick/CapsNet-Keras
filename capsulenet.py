@@ -30,6 +30,7 @@ from six.moves import range
 K.set_image_data_format('channels_last')
 
 
+
 def CapsNet(input_shape, n_class, routings):
     """
     A Capsule Network on MNIST.
@@ -252,7 +253,8 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    (x_train, y_train), (x_test, y_test) = load_mnist()
+    #(x_train, y_train), (x_test, y_test) = load_mnist()
+    (x_train, y_train), (x_test, y_test) = load_notMNIST()
 
     # define model
     model, eval_model, manipulate_model = CapsNet(input_shape=x_train.shape[1:],
