@@ -216,7 +216,7 @@ def load_notMNIST_from_npy():
                                                                         test_size=0.20,
                                                                         random_state=42)
 
-    return data_train, data_test, labels_train, labels_test
+    return data_train, labels_train, data_test, labels_test
 
 
 
@@ -256,6 +256,7 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
+    #(x_train, y_train), (x_test, y_test) = load_mnist()
     x_train, y_train, x_test, y_test = load_notMNIST_from_npy()
 
     # define model
