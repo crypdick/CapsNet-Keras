@@ -81,7 +81,7 @@ def CapsNet(input_shape, n_class, routings):
     eval_model = models.Model(x, [out_caps, decoder(masked)])
 
     # manipulate model
-    noise = layers.Input(shape=(n_class, 16))
+    noise = layers.Input(shape=(n_class, capsule_layer_dimensionality))
     noised_digitcaps = layers.Add()([digitcaps, noise])
     masked_noised_y = Mask()([noised_digitcaps, y])
     manipulate_model = models.Model([x, y, noise], decoder(masked_noised_y))
