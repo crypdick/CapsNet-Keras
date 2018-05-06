@@ -219,20 +219,6 @@ def load_notMNIST_from_npy():
     return data_train, data_test, labels_train, labels_test
 
 
-def load_notMNIST():
-    pickle_file = 'notMNIST.pickle'
-
-    with open(pickle_file, 'rb') as f:
-        save = pickle.load(f)
-        train_dataset = save['train_dataset']
-        train_labels = save['train_labels']
-        #valid_dataset = save['valid_dataset']
-        #valid_labels = save['valid_labels']
-        test_dataset = save['test_dataset']
-        test_labels = save['test_labels']
-
-        return (train_dataset, train_labels), (test_dataset, test_labels)
-
 
 if __name__ == "__main__":
     import os
@@ -270,8 +256,7 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    (x_train, y_train), (x_test, y_test) = load_mnist()
-    x_train1, y_train1, x_test1, y_test1 = load_notMNIST_from_npy()
+    x_train, y_train, x_test, y_test = load_notMNIST_from_npy()
 
     # define model
     model, eval_model, manipulate_model = CapsNet(input_shape=x_train.shape[1:],
