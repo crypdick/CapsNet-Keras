@@ -91,6 +91,7 @@ pixel_depth = 255.0  # Number of levels per pixel.
 def load_letter(folder, min_num_images):
     """Load the data for a single letter label."""
     image_files = os.listdir(folder)
+
     dataset = np.ndarray(shape=(len(image_files), image_size, image_size),
                          dtype=np.float32)
     print(folder)

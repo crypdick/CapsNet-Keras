@@ -208,6 +208,9 @@ def load_mnist():
 def load_notMNIST_from_npy():
     image_data = np.load("image_data.npy")
     label_data = np.load("label_data.npy")
+    image_data = np.expand_dims(image_data, axis=4)
+    label_data = np.expand_dims(label_data, axis=1)
+
     data_train, data_test, labels_train, labels_test = train_test_split(image_data,
                                                                         label_data,
                                                                         test_size=0.20,
@@ -267,8 +270,10 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    #(x_train, y_train), (x_test, y_test) = load_mnist()
-    x_train, y_train, x_test, y_test = load_notMNIST_from_npy()
+    (x_train, y_train), (x_test, y_test) = load_mnist()
+    x_train1, y_train1, x_test1, y_test1 = load_notMNIST_from_npy()
+
+    import pdb; pdb.set_trace()
 
     # define model
     model, eval_model, manipulate_model = CapsNet(input_shape=x_train.shape[1:],
