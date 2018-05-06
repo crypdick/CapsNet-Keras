@@ -30,7 +30,7 @@ from sklearn.model_selection import train_test_split
 
 K.set_image_data_format('channels_last')
 
-
+CAPSULE_LAYER_DIMENSIONALITY = 20
 
 def CapsNet(input_shape, n_class, routings):
     """
@@ -44,9 +44,9 @@ def CapsNet(input_shape, n_class, routings):
     x = layers.Input(shape=input_shape)
 
 
-    capsule_layer_dimensionality = 20
+
     primarycaps_strides = 2
-    primarycaps_channels = capsule_layer_dimensionality * primarycaps_strides
+    primarycaps_channels = CAPSULE_LAYER_DIMENSIONALITY * primarycaps_strides
     dim_capsuls = 10
     n_filters = dim_capsuls*primarycaps_channels
 
@@ -57,7 +57,7 @@ def CapsNet(input_shape, n_class, routings):
     primarycaps = PrimaryCap(conv1, dim_capsule=dim_capsuls, n_channels=primarycaps_channels, kernel_size=9, strides=primarycaps_strides, padding='valid')
 
     # Layer 3: Capsule layer. Routing algorithm works here.
-    digitcaps = CapsuleLayer(num_capsule=n_class, dim_capsule=capsule_layer_dimensionality, routings=routings,
+    digitcaps = CapsuleLayer(num_capsule=n_class, dim_capsule=CAPSULE_LAYER_DIMENSIONALITY, routings=routings,
                              name='digitcaps')(primarycaps)
 
     # Layer 4: This is an auxiliary layer to replace each capsule with its length. Just to match the true label's shape.
@@ -71,7 +71,7 @@ def CapsNet(input_shape, n_class, routings):
 
     # Shared Decoder model in training and prediction
     decoder = models.Sequential(name='decoder')
-    decoder.add(layers.Dense(512, activation='relu', input_dim=capsule_layer_dimensionality*n_class))
+    decoder.add(layers.Dense(512, activation='relu', input_dim=CAPSULE_LAYER_DIMENSIONALITY * n_class))
     decoder.add(layers.Dense(1024, activation='relu'))
     decoder.add(layers.Dense(np.prod(input_shape), activation='sigmoid'))
     decoder.add(layers.Reshape(target_shape=input_shape, name='out_recon'))
@@ -81,7 +81,7 @@ def CapsNet(input_shape, n_class, routings):
     eval_model = models.Model(x, [out_caps, decoder(masked)])
 
     # manipulate model
-    noise = layers.Input(shape=(n_class, capsule_layer_dimensionality))
+    noise = layers.Input(shape=(n_class, CAPSULE_LAYER_DIMENSIONALITY))
     noised_digitcaps = layers.Add()([digitcaps, noise])
     masked_noised_y = Mask()([noised_digitcaps, y])
     manipulate_model = models.Model([x, y, noise], decoder(masked_noised_y))
@@ -183,7 +183,7 @@ def manipulate_latent(model, data, args):
     x, y = np.expand_dims(x, 0), np.expand_dims(y, 0)
     noise = np.zeros([1, 10, 16])
     x_recons = []
-    for dim in range(16):
+    for dim in range(CAPSULE_LAYER_DIMENSIONALITY):
         for r in [-0.25, -0.2, -0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15, 0.2, 0.25]:
             tmp = np.copy(noise)
             tmp[:,:,dim] = r
@@ -192,7 +192,7 @@ def manipulate_latent(model, data, args):
 
     x_recons = np.concatenate(x_recons)
 
-    img = combine_images(x_recons, height=16)
+    img = combine_images(x_recons, height=CAPSULE_LAYER_DIMENSIONALITY)
     image = img*255
     Image.fromarray(image.astype(np.uint8)).save(args.save_dir + '/manipulate-%d.png' % args.digit)
     print('manipulated result saved to %s/manipulate-%d.png' % (args.save_dir, args.digit))
