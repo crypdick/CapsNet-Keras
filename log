@@ -3,3 +3,4 @@ modified notMNIST to be compatible with code
 Kept getting "Epoch 00014: val_capsnet_acc did not improve from 0.09960" errors
 1 hot encoded, started improving training
 increased layer dimensionality, and dim of capsule vectors for round 2
+training completed, no improvement after epoch 32 (accuracy 95%)
