@@ -61,6 +61,7 @@ model.summary()
 
 # train or test
 #model.load_weights(args.weights)
-model.load_weights('mnist_vanilla_result/weights-04.h5')
+model.load_weights('notMNIST_vanilla_result/weights-04.h5')
+#model.load_weights('mnist_vanilla_result/weights-04.h5')
 saver = tf.train.Saver()
-saver.save(K.get_session(), '/tmp/keras_model.ckpt')
+saver.save(K.get_session(), '/tmp/keras_notMNIST_model.ckpt')
