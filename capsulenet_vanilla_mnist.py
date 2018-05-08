@@ -67,7 +67,6 @@ def CapsNet(input_shape, n_class, routings):
     # Decoder network.
     y = layers.Input(shape=(n_class,))
     masked_by_y = Mask()([digitcaps, y])  # The true label is used to mask the output of capsule layer. For training
-    masked_by_y = Mask()([digitcaps, y])  # The true label is used to mask the output of capsule layer. For training
     masked = Mask()(digitcaps)  # Mask using the capsule with maximal length. For prediction
 
     # Shared Decoder model in training and prediction
